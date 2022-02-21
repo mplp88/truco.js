@@ -1,16 +1,11 @@
+//(function () {
 class Juego {
     constructor(cantidadJugadores) {
         this.cantidadJugadores = cantidadJugadores;
+        this.turno = 0;
         this.jugadores = [];
         this.mesa = {};
         this.mazo = {};
-        this.juego = null;
-    }
-
-    getInstance() {
-        if (this.juego = null)
-            this.juego = new Juego;
-        return this.juego;
     }
 
     sorteo(jugadores) {
@@ -25,33 +20,31 @@ class Juego {
 
     iniciar(cantidadJugadores) {
         cantidadJugadores = 2; //TODO: A futuro agregar más jugadores
-        var jugador1, jugador2;
-        var turno;
 
         // debugger;
-        mesa = new Mesa();
-        mazo = new Mazo();
-        mazo.init();
+        this.mesa = new Mesa();
+        this.mazo = new Mazo();
+        this.mazo.init();
 
-        jugador1 = new Jugador(1, false); //A futuro agregar más jugadores
-        jugador2 = new Jugador(2, false); //A futuro agregar más jugadores
+        let jugador1 = new Jugador(1, false); //A futuro agregar más jugadores
+        let jugador2 = new Jugador(2, false); //A futuro agregar más jugadores
 
-        jugadores.push(jugador1);
-        jugadores.push(jugador2);
+        this.jugadores.push(jugador1);
+        this.jugadores.push(jugador2);
 
 
         // Determinar quién empieza.
-        turno = sorteo(jugadores);
+        this.turno = this.sorteo(this.jugadores);
 
         this.preparar();
 
-        jugador1.mano.cartas.forEach((carta, index) => {
+        this.jugadores[0].mano.cartas.forEach((carta, index) => {
             let oCarta = document.querySelector(`#jugador--1 .carta--${index}`)
             oCarta.querySelector('.carta--numero').innerHTML = carta.numero;
             oCarta.querySelector('.carta--palo').innerHTML = carta.palo;
         })
 
-        jugador2.mano.cartas.forEach((carta, index) => {
+        this.jugadores[1].mano.cartas.forEach((carta, index) => {
             let oCarta = document.querySelector(`#jugador--2 .carta--${index}`)
             oCarta.querySelector('.carta--numero').innerHTML = carta.numero;
             oCarta.querySelector('.carta--palo').innerHTML = carta.palo;
@@ -66,21 +59,22 @@ class Juego {
     }
 
     preparar() {
-        jugadores.forEach(jugador => {
+        this.jugadores.forEach(jugador => {
             jugador.mano.limpiar();
         })
-        mazo.mezclar();
-        mazo.repartir(jugadores);
+        this.mazo.mezclar();
+        this.mazo.repartir(this.jugadores);
     }
 
     jugarCarta(cartaIndex, jugadorNumero) {
-        let jugador = jugadores.find(j => j.numero == jugadorNumero);
+        let jugador = this.jugadores.find(j => j.numero == jugadorNumero);
         let cartaJugada = jugador.jugar(cartaIndex);
-        mesa.poner(cartaJugada.carta, cartaJugada.numeroJugador)
+        this.mesa.poner(cartaJugada.carta, cartaJugada.numeroJugador);
+        console.log(this);
     }
 
     volverARepartir() {
-        preparar();
+        this.preparar();
     }
 }
 
@@ -246,6 +240,7 @@ class Mano {
 
 class Jugador {
     constructor(numero, isNpc) {
+        this.puntos = 0;
         this.numero = numero;
         this.isNpc = isNpc;
         this.mano = new Mano();
@@ -324,8 +319,17 @@ class Mesa {
 let juego;
 
 function iniciar() {
-    juego = Juego.getInstance();
+    juego = new Juego(2); //TODO: A futuro agregar más jugadores
     juego.iniciar()
 }
 
+function jugarCarta(cartaIndex, jugadorNumero) {
+    juego.jugarCarta(cartaIndex, jugadorNumero);
+}
+
+function preparar() {
+    juego.preparar();
+}
+
 window.onload = iniciar;
+//})()
