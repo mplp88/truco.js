@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Truco</title>
+    <link rel="stylesheet" href="truco.css">
+    <script src="truco.js"></script>
+</head>
+
+<body>
+    <div id="mesa">
+        <div id="mano--1" class="mano">
+            <h3>Mano 1</h3>
+            <div class="carta jugador--1"></div>
+            <br>
+            <div class="carta jugador--2"></div>
+            <br>
+            <div class="ganador">Ganador: <span class="jugador">Falta jugar cartas</span></div>
+        </div>
+        <div id="mano--2" class="mano">
+            <h3>Mano 2</h3>
+            <div class="carta jugador--1"></div>
+            <br>
+            <div class="carta jugador--2"></div>
+            <br>
+            <div class="ganador">Ganador: <span class="jugador">Falta jugar cartas</span></div>
+        </div>
+        <div id="mano--3" class="mano">
+            <h3>Mano 3</h3>
+            <div class="carta jugador--1"></div>
+            <br>
+            <div class="carta jugador--2"></div>
+            <br>
+            <div class="ganador">Ganador: <span class="jugador">Falta jugar cartas</span></div>
+        </div>
+    </div>
+    <hr />
+    <button type="button" onclick="preparar()">Volver a repartir</button>
+    <div id="manos">
+
+        <div id="jugador--1" class="jugador">
+            <div class="carta--en--mano">
+                <div class="carta carta--0">
+                    <span class="carta--numero"></span>
+                    <span class="carta--palo"></span>
+                </div>
+            </div>
+            <div class="carta--en--mano">
+                <div class="carta carta--1">
+                    <span class="carta--numero"></span>
+                    <span class="carta--palo"></span>
+                </div>
+            </div>
+            <div class="carta--en--mano">
+                <div class="carta carta--2">
+                    <span class="carta--numero"></span>
+                    <span class="carta--palo"></span>
+                </div>
+            </div>
+            <br />
+            <button class="jugar--carta--0" onclick="jugarCarta(0, 1)">Jugar carta 1</button>
+            <button class="jugar--carta--1" onclick="jugarCarta(1, 1)">Jugar carta 2</button>
+            <button class="jugar--carta--2" onclick="jugarCarta(2, 1)">Jugar carta 3</button>
+        </div>
+        <div id="jugador--2" class="jugador">
+            <div class="carta--en--mano">
+                <div class="carta carta--0">
+                    <span class="carta--numero"></span>
+                    <span class="carta--palo"></span>
+                </div>
+            </div>
+            <div class="carta--en--mano">
+                <div class="carta carta--1">
+                    <span class="carta--numero"></span>
+                    <span class="carta--palo"></span>
+                </div>
+            </div>
+            <div class="carta--en--mano">
+                <div class="carta carta--2">
+                    <span class="carta--numero"></span>
+                    <span class="carta--palo"></span>
+                </div>
+            </div>
+            <br />
+            <button class="jugar--carta--0" onclick="jugarCarta(0, 2)">Jugar carta 1</button>
+            <button class="jugar--carta--1" onclick="jugarCarta(1, 2)">Jugar carta 2</button>
+            <button class="jugar--carta--2" onclick="jugarCarta(2, 2)">Jugar carta 3</button>
+        </div>
+    </div>
+</body>
+
+</html>

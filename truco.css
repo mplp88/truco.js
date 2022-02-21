@@ -1,0 +1,47 @@
+.carta {
+  padding: 5px;
+  margin: 5px auto 5px auto;
+  width: 100px;
+  height: 150px;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 5px;
+}
+
+.carta--numero,
+.carta--palo {
+  width: 100%;
+  text-align: right;
+  display: inline-block;
+}
+
+.carta.ganador {
+  background-color: green;
+}
+
+.carta.perdedor {
+  background-color: tomato;
+}
+
+.carta.parda {
+  background-color: yellow;
+}
+
+.mano {
+  display: inline-block;
+  height: 500px;
+  width: 25%;
+  margin: auto;
+}
+
+.jugador {
+  display: block;
+  width: 50%;
+  margin: auto;
+}
+
+.carta--en--mano {
+  margin: 5px;
+  display: inline-block;
+  width: 25%;
+  height: 150px;
+}
