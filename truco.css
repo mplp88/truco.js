@@ -45,3 +45,9 @@
   width: 25%;
   height: 150px;
 }
+
+.jugar--carta {
+  width: 50%;
+  margin: auto;
+  text-align: center;
+}

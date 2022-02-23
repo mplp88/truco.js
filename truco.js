@@ -281,6 +281,7 @@ class Jugador {
         this.numero = numero;
         this.isNpc = isNpc;
         this.mano = new Mano();
+        this.el = ''
     }
 
     irseAlMazo() {
@@ -299,6 +300,57 @@ class Jugador {
             carta,
             numeroJugador
         }
+    }
+
+    crearElementoHTML() {
+        let oJugador, oCartasContainer, oCarta, oNumeroCarta, oPaloCarta;
+
+        oJugador = document.createElement('div');
+        oCartasContainer = document.createElement('div');
+        
+        //Carta 0
+        oCarta = document.createElement('div');
+        oNumeroCarta = document.createElement('span');
+        oPaloCarta = document.createElement('span');
+
+        oCarta.appendChild(oNumeroCarta);
+        oCarta.appendChild(oPaloCarta);
+        
+        oCartasContainer.appendChild(oCarta); // Carta 0
+        oCartasContainer.appendChild(oCarta); // Carta 1
+        oCartasContainer.appendChild(oCarta); // Carta 2
+        
+
+        oJugador.appendChild(oCartasContainer);
+
+        return oJugador;
+
+        //TODO: agregar clases de CSS
+        /*
+        <div id="jugador--1" class="jugador">
+            <div class="carta--en--mano">
+                <div class="carta carta--0">
+                    <span class="carta--numero"></span>
+                    <span class="carta--palo"></span>
+                </div>
+                <button class="jugar--carta carta--0" onclick="jugarCarta(0, 1)" disabled>Jugar carta 1</button>
+            </div>
+            <div class="carta--en--mano">
+                <div class="carta carta--1">
+                    <span class="carta--numero"></span>
+                    <span class="carta--palo"></span>
+                </div>
+                <button class="jugar--carta carta--1" onclick="jugarCarta(1, 1)" disabled>Jugar carta 2</button>
+            </div>
+            <div class="carta--en--mano">
+                <div class="carta carta--2">
+                    <span class="carta--numero"></span>
+                    <span class="carta--palo"></span>
+                </div>
+                <button class="jugar--carta carta--2" onclick="jugarCarta(2, 1)" disabled>Jugar carta 3</button>
+            </div>
+        </div>
+        */
     }
 }
 
