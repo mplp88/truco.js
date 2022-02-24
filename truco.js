@@ -28,43 +28,37 @@ class Juego {
         });
     }
 
+    imprimirJugadores() {
+        this.jugadores.forEach(jugador => {
+            let oJugador = jugador.crearElementoHTML()
+            document.querySelector('#jugadores').appendChild(oJugador);
+        })
+    }
+
     iniciar(cantidadJugadores) {
         cantidadJugadores = 2; //TODO: A futuro agregar más jugadores
 
         // debugger;
         this.mesa = new Mesa();
         this.mazo = new Mazo();
-        this.mazo.init();
+        // this.mazo.init();
 
-        let jugador1 = new Jugador(1, false); //A futuro agregar más jugadores
-        let jugador2 = new Jugador(2, false); //A futuro agregar más jugadores
+        for(let i = 1; i <= cantidadJugadores; i++) {
+            let jugador = new Jugador(i, false);
+            this.jugadores.push(jugador);
+        }
 
-        this.jugadores.push(jugador1);
-        this.jugadores.push(jugador2);
-
-
+        
+        
+        this.preparar();
+        this.imprimirJugadores();
+        this.imprimirCartas();
+        
         // Determinar quién empieza.
         this.turno = this.sorteo(this.jugadores);
-
         this.cambiarBotones();
-
-        this.preparar();
-        this.imprimirCartas();
-
-        /*
-        this.jugadores[1].mano.cartas.forEach((carta, index) => {
-            let oCarta = document.querySelector(`#jugador--2 .carta--${index}`)
-            oCarta.querySelector('.carta--numero').innerHTML = carta.numero;
-            oCarta.querySelector('.carta--palo').innerHTML = carta.palo;
-        })
-        */
-
+        
         console.log(this);
-        /*
-        console.log(jugador1);
-        console.log(jugador2);
-        console.log(turno);
-        */
     }
     
     cambiarTurno() {
@@ -131,6 +125,7 @@ class Carta {
 class Mazo {
     constructor() {
         this.cartas = [];
+        this.init();
     }
 
     init() {
@@ -303,29 +298,55 @@ class Jugador {
     }
 
     crearElementoHTML() {
-        let oJugador, oCartasContainer, oCarta, oNumeroCarta, oPaloCarta;
+        let oJugador, oCartaContainer, oCarta, oNumeroCarta, oPaloCarta, oButtonJugar;
 
+        //Creación Elemento Jugador
         oJugador = document.createElement('div');
-        oCartasContainer = document.createElement('div');
-        
-        //Carta 0
-        oCarta = document.createElement('div');
-        oNumeroCarta = document.createElement('span');
-        oPaloCarta = document.createElement('span');
+        oJugador.id = 'jugador--' + this.numero;
+        oJugador.classList.add('jugador');
 
-        oCarta.appendChild(oNumeroCarta);
-        oCarta.appendChild(oPaloCarta);
-        
-        oCartasContainer.appendChild(oCarta); // Carta 0
-        oCartasContainer.appendChild(oCarta); // Carta 1
-        oCartasContainer.appendChild(oCarta); // Carta 2
-        
+        for(let i = 0; i < 3; i++) {
+            //Creación Elemento Carta
+            oCarta = document.createElement('div');
+            oCarta.classList.add('carta');
+            oCarta.classList.add('carta--'+i);
 
-        oJugador.appendChild(oCartasContainer);
+            //Creación Elemento Numero de Carta
+            oNumeroCarta = document.createElement('span');
+            oNumeroCarta.classList.add('carta--numero');
+            
+            //Creación Elemento Palo de Carta
+            oPaloCarta = document.createElement('span');
+            oPaloCarta.classList.add('carta--palo');
+
+            //Append Numero y Palo a Carta
+            oCarta.appendChild(oNumeroCarta);
+            oCarta.appendChild(oPaloCarta);
+            //Creación Elemento Boton Jugar Carta
+            oButtonJugar = document.createElement('button');
+            oButtonJugar.disabled = 'disabled';
+            oButtonJugar.classList.add('jugar--carta');
+            oButtonJugar.classList.add('carta--'+i);
+            oButtonJugar.innerHTML = "Jugar carta "+ (i+1);
+            oButtonJugar.onclick = () => { 
+                jugarCarta(i, this.numero);
+            }
+
+             // Creacion Elemento Contenedor de carta
+            oCartaContainer = document.createElement('div');
+            oCartaContainer.classList.add('carta--en--mano');
+
+            //Append de la carta y el boton al contenedor
+            oCartaContainer.appendChild(oCarta);
+            oCartaContainer.appendChild(oButtonJugar);
+            
+            //Append de la carta y el boton al contenedor
+            oJugador.appendChild(oCartaContainer);
+        }
 
         return oJugador;
 
-        //TODO: agregar clases de CSS
+        // 
         /*
         <div id="jugador--1" class="jugador">
             <div class="carta--en--mano">
