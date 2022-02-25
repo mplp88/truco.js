@@ -1,11 +1,13 @@
 //(function () {
 class Juego {
-    constructor(cantidadJugadores) {
+    constructor(cantidadJugadores, idElemento) {
         this.cantidadJugadores = cantidadJugadores;
         this.turno = 0;
         this.jugadores = [];
         this.mesa = {};
         this.mazo = {};
+        this.idElemento = idElemento || 'juego';
+        this.cargando = true;
     }
 
     sorteo(jugadores) {
@@ -41,8 +43,7 @@ class Juego {
         // debugger;
         this.mesa = new Mesa();
         this.mazo = new Mazo();
-        // this.mazo.init();
-
+        
         for(let i = 1; i <= cantidadJugadores; i++) {
             let jugador = new Jugador(i, false);
             this.jugadores.push(jugador);
@@ -54,7 +55,6 @@ class Juego {
         this.imprimirJugadores();
         this.imprimirCartas();
         
-        // Determinar quién empieza.
         this.turno = this.sorteo(this.jugadores);
         this.cambiarBotones();
         
@@ -71,16 +71,27 @@ class Juego {
     cambiarBotones() {
         let botonesJugador;
         juego.jugadores.forEach(jugador => {
-            botonesJugador = document.querySelectorAll(`#jugador--${jugador.numero} > button`);
+            botonesJugador = document.querySelectorAll(`#jugador--${jugador.numero} button`);
             botonesJugador.forEach(el => {
                 el.disabled = 'disabled';
             });
         })
         
-        botonesJugador = document.querySelectorAll(`#jugador--${this.turno} > button`);
+        botonesJugador = document.querySelectorAll(`#jugador--${this.turno} button`);
         botonesJugador.forEach(el => {
-            el.disabled = false;
+            el.disabled = '';
         });
+    }
+
+    limpiarJugadores() {
+        this.jugadores.forEach(jugador => {
+            jugador.mano.cartas.forEach(carta => {
+                carta.index = -1;
+            })
+            this.mazo.cartas = [ ...this.mazo.cartas, ...jugador.mano.cartas]
+            jugador.mano.limpiar();
+        })
+        document.querySelector('#jugadores').innerHTML = '';
     }
 
     preparar() {
@@ -97,15 +108,15 @@ class Juego {
     }
 
     volverARepartir() {
-        this.jugadores.forEach(jugador => {
-            jugador.mano.cartas.forEach(carta => {
-                carta.index = -1;
-            })
-            this.mazo.cartas = [ ...this.mazo.cartas, ...jugador.mano.cartas]
-            jugador.mano.limpiar();
-        })
+        this.limpiarJugadores();
         this.preparar();
+        this.imprimirJugadores();
         this.imprimirCartas();
+        this.cambiarBotones();
+    }
+
+    montar() {
+        let oJuego = document.querySelector('#'+this.idElemento);
     }
 }
 
@@ -239,10 +250,14 @@ class Mazo {
         }
     }
 
+    dar() {
+        return this.cartas.shift();
+    }
+    
     repartir(jugadores) {
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < jugadores.length; j++) {
-                jugadores[j].mano.agarrar(this.cartas.shift());
+                jugadores[j].mano.agarrar(this.dar());
             }
         }
     }
