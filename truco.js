@@ -360,33 +360,6 @@ class Jugador {
         }
 
         return oJugador;
-
-        // 
-        /*
-        <div id="jugador--1" class="jugador">
-            <div class="carta--en--mano">
-                <div class="carta carta--0">
-                    <span class="carta--numero"></span>
-                    <span class="carta--palo"></span>
-                </div>
-                <button class="jugar--carta carta--0" onclick="jugarCarta(0, 1)" disabled>Jugar carta 1</button>
-            </div>
-            <div class="carta--en--mano">
-                <div class="carta carta--1">
-                    <span class="carta--numero"></span>
-                    <span class="carta--palo"></span>
-                </div>
-                <button class="jugar--carta carta--1" onclick="jugarCarta(1, 1)" disabled>Jugar carta 2</button>
-            </div>
-            <div class="carta--en--mano">
-                <div class="carta carta--2">
-                    <span class="carta--numero"></span>
-                    <span class="carta--palo"></span>
-                </div>
-                <button class="jugar--carta carta--2" onclick="jugarCarta(2, 1)" disabled>Jugar carta 3</button>
-            </div>
-        </div>
-        */
     }
 }
 
