@@ -3,6 +3,7 @@ class Juego {
     constructor(cantidadJugadores, idElemento) {
         this.cantidadJugadores = cantidadJugadores;
         this.turno = 0;
+        this.proximoTurno = -1;
         this.jugadores = [];
         this.mesa = {};
         this.mazo = {};
@@ -38,19 +39,13 @@ class Juego {
     }
 
     iniciar(cantidadJugadores) {
-        cantidadJugadores = 2; //TODO: A futuro agregar más jugadores
+        this.cantidadJugadores = 2; //TODO: A futuro agregar más jugadores
 
         // debugger;
         this.mesa = new Mesa();
         this.mazo = new Mazo();
         
-        for(let i = 1; i <= cantidadJugadores; i++) {
-            let jugador = new Jugador(i, false);
-            this.jugadores.push(jugador);
-        }
-
-        
-        
+        this.generarJugadores();
         this.preparar();
         this.imprimirJugadores();
         this.imprimirCartas();
@@ -61,10 +56,19 @@ class Juego {
         console.log(this);
     }
     
+    reiniciar() {
+        this.limpiarJugadores();
+        this.iniciar(this.cantidadJugadores);
+    }
+
     cambiarTurno() {
-        this.turno += 1;
-        if(this.turno > this.jugadores.length) {
-            this.turno = 1;
+        if(this.proximoTurno > 0) {
+            this.turno = this.proximoTurno;
+        } else {
+            this.turno += 1;
+            if(this.turno > this.jugadores.length) {
+                this.turno = 1;
+            }
         }
     }
 
@@ -81,6 +85,14 @@ class Juego {
         botonesJugador.forEach(el => {
             el.disabled = '';
         });
+    }
+
+    generarJugadores() {
+        this.jugadores = [];
+        for(let i = 1; i <= this.cantidadJugadores; i++) {
+            let jugador = new Jugador(i, false);
+            this.jugadores.push(jugador);
+        }
     }
 
     limpiarJugadores() {
@@ -303,9 +315,9 @@ class Jugador {
         let numeroJugador = this.numero;
         let oJugador = document.querySelector(`#jugador--${numeroJugador}`);
         let oCarta = document.querySelector(`#jugador--${numeroJugador} .carta--${cartaIndex}`);
-        let oBoton = document.querySelector(`#jugador--${numeroJugador} .jugar--carta--${cartaIndex}`);
+        //let oBoton = document.querySelector(`#jugador--${numeroJugador} .jugar--carta--${cartaIndex}`);
         oJugador.removeChild(oCarta.parentElement);
-        oJugador.removeChild(oBoton);
+        //oJugador.removeChild(oBoton);
         return {
             carta,
             numeroJugador
@@ -390,6 +402,7 @@ class Mesa {
 
     verificarGanador() {
         let cartaMasAlta = {};
+        this.proximoTurno = -1;
         cartaMasAlta.carta = new Carta(-1, '', -1)
         if (this.cartas.length != juego.jugadores.length) return false;
 
@@ -425,6 +438,7 @@ class Mesa {
         }
         */
         this.mano += 1;
+        this.proximoTurno = cartaMasAlta.nroJugador;
         for (let i = 0; i <= this.cartas.length; i++) {
             this.cartasAnteriores.push(this.cartas.pop());
         }
@@ -432,11 +446,15 @@ class Mesa {
     }
 }
 
-let juego;
+let juego = new Juego(2);;
 
 function iniciar() {
-    juego = new Juego(2); //TODO: A futuro agregar más jugadores
+    //juego = new Juego(2);  //TODO: A futuro agregar más jugadores
     juego.iniciar()
+}
+
+function reiniciar() {
+    juego.reiniciar();
 }
 
 function jugarCarta(cartaIndex, jugadorNumero) {
