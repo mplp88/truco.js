@@ -106,6 +106,22 @@ class Juego {
         document.querySelector('#jugadores').innerHTML = '';
     }
 
+    limpiarMesa() {
+        this.mesa.mano = 1;
+        this.mesa.cartas = [];
+        this.mesa.cartasAnteriores = [];
+        let oMesa = document.querySelector('#mesa');
+        for(let i = 1; i <= 3; i++) {
+            for(let j = 1; j <= this.cantidadJugadores; j++) {
+                let oCarta = oMesa.querySelector(`#mano--${i} .carta.jugador--${j}`);
+                oCarta.innerHTML = '';
+                oCarta.classList.remove('ganador');
+                oCarta.classList.remove('perdedor');
+            }
+            oMesa.querySelector(`#mano--${i} .ganador .jugador`).innerHTML = 'Falta jugar cartas';
+        }
+    }
+
     preparar() {
         this.mazo.mezclar();
         this.mazo.repartir(this.jugadores);
@@ -121,6 +137,7 @@ class Juego {
 
     volverARepartir() {
         this.limpiarJugadores();
+        this.limpiarMesa();
         this.preparar();
         this.imprimirJugadores();
         this.imprimirCartas();
@@ -446,7 +463,7 @@ class Mesa {
     }
 }
 
-let juego = new Juego(2);;
+let juego = new Juego(2);
 
 function iniciar() {
     //juego = new Juego(2);  //TODO: A futuro agregar más jugadores
